@@ -15,7 +15,7 @@ const Navbar = () => {
     if (!confirmation) return;
 
     dispatch(setAuthenticated(false));
-    // await logout();
+    await logout();
     navigate("/login");
   };
 
@@ -29,7 +29,7 @@ const Navbar = () => {
         />
       </div>
       <div className="flex items-center space-x-4">
-        {/* {authenticated && ( */}
+        {authenticated && (
           <>
             <button
               onClick={handleLogout}
@@ -38,7 +38,7 @@ const Navbar = () => {
               Logout
             </button>
           </>
-        {/* )} */}
+        )}
       </div>
     </nav>
   );

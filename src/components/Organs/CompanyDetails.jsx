@@ -28,7 +28,7 @@ function CompanyDetails() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center bg-gray-50 py-10">
+        <div className="min-h-full flex flex-col items-center bg-gray-50 py-10">
             <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
                 <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                     {company.logo ? (

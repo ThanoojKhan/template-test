@@ -70,7 +70,7 @@ function CompanyList() {
   return (
     <>
       <Toaster />
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+      <div className="min-h-full flex flex-col items-center justify-center bg-gray-50">
         <div className="w-full lg:max-w-6xl bg-white p-4 lg:p-8 rounded-lg shadow-lg">
           <h2 className="text-xl lg:text-2xl font-semibold text-center text-indigo-600 mb-6">
             Company List

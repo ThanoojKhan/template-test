@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { doLogout } from "../services/auth";
+import { persistor } from "../redux/store";
+import clearStorage from "../services/clearStorage";
 
 function useAuth() {
     const [user, setUser] = useState(null);
@@ -17,7 +19,8 @@ function useAuth() {
     }, []);
 
     const logout = async () => {
-        localStorage.removeItem("accessToken");
+        clearStorage();
+        await persistor.purge();
         setUser(null);
         await doLogout().catch((error) => {
             console.log(error);
