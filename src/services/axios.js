@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const enviroment = "production";
-const development = "http://";
+const enviroment = "development"; // change to production when deploying
+
+const development = "https://crgapi.aaagroup.com/HirerProfileApi/";
 const production = "https://";
 
 const axiosInstance = axios.create({

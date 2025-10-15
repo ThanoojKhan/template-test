@@ -22,9 +22,9 @@ function useAuth() {
         clearStorage();
         await persistor.purge();
         setUser(null);
-        await doLogout().catch((error) => {
-            console.log(error);
-        });
+        // await doLogout().catch((error) => {
+        //     console.log(error);
+        // });
     };
 
     const isAuthenticated = () => {

@@ -13,17 +13,29 @@ import dummyCompanies from "../../lib/dummyDatas";
 const Sidebar = () => {
     const [open, setOpen] = useState(true);
     const [selectedCompany, setSelectedCompany] = useState(null);
+    const [companies, setCompanies] = useState([]);
 
     useEffect(() => {
-        const storedCompany = localStorage.getItem("selectedCompany");
-        if (storedCompany) {
-            setSelectedCompany(JSON.parse(storedCompany));
+        const savedIds = localStorage.getItem("selectedCompanyId");
+        const selectedIds = savedIds ? JSON.parse(savedIds) : [];
+
+        const filtered = dummyCompanies.filter((c) =>
+            selectedIds.includes(c._id)
+        );
+
+        setCompanies(filtered);
+
+        if (filtered.length > 0) {
+            setSelectedCompany(filtered[0]);
         }
     }, []);
 
     useEffect(() => {
         if (selectedCompany) {
-            localStorage.setItem("selectedCompany", JSON.stringify(selectedCompany));
+            localStorage.setItem(
+                "selectedCompany",
+                JSON.stringify(selectedCompany)
+            );
         }
     }, [selectedCompany]);
 
@@ -32,7 +44,7 @@ const Sidebar = () => {
         {
             name: "Current Company Details",
             icon: <Building2 size={20} />,
-            path: `/company/${selectedCompany?._id}`,
+            path: `/company/${selectedCompany?._id || ""}`,
         },
         { name: "Users", icon: <Users size={20} />, path: "/users" },
         { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
@@ -56,23 +68,19 @@ const Sidebar = () => {
             </div>
 
             <div className="px-4 py-4 border-b border-gray-700">
-                {/* <label
-                    className={`text-sm text-gray-400 mb-2 block transition-all duration-300 ${open ? "opacity-100" : "opacity-100 w-0"
-                        }`}
-                >
-                    Select Company
-                </label> */}
                 <select
                     className={`bg-gray-800 text-gray-200 text-sm w-full rounded-lg p-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 transition-all duration-300 ${open ? "opacity-100" : "opacity-100 w-0"
                         }`}
                     value={selectedCompany?._id || ""}
                     onChange={(e) => {
-                        const company = dummyCompanies.find((c) => c._id === e.target.value);
+                        const company = companies.find(
+                            (c) => c._id === e.target.value
+                        );
                         setSelectedCompany(company);
                     }}
                 >
                     <option value="">Select a company</option>
-                    {dummyCompanies.map((company) => (
+                    {companies.map((company) => (
                         <option key={company._id} value={company._id}>
                             {company.name}
                         </option>
@@ -104,8 +112,10 @@ const Sidebar = () => {
                 ))}
             </div>
 
-            <div className={`${open ? "w-64" : "w-20"}
-                px-4 py-3 text-xs text-gray-400 border-t border-gray-700 absolute bottom-0 text-center transition-all duration-300`}>
+            <div
+                className={`${open ? "w-64" : "w-20"
+                    } px-4 py-3 text-xs text-gray-400 border-t border-gray-700 absolute bottom-0 text-center transition-all duration-300`}
+            >
                 {open ? <p>Version: {__APP_VERSION__}</p> : <p>{__APP_VERSION__}</p>}
             </div>
         </div>

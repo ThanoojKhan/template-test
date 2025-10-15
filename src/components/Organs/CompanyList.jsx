@@ -10,7 +10,6 @@ function CompanyList() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [query, setQuery] = useState('');
   const [totalCompanies, setTotalCompanies] = useState(0);
   const [page, setPage] = useState(1);
   const limit = 6;
@@ -36,19 +35,13 @@ function CompanyList() {
   //   }
   // };
 
-
   // Fetch companies (dummy version)
-  const fetchCompanies = async (page, query) => {
+  const fetchCompanies = async (page) => {
     setLoading(true);
     try {
-      let filtered = dummyCompanies;
-      if (query) {
-        filtered = filtered.filter(
-          (c) =>
-            c.name.toLowerCase().includes(query.toLowerCase()) ||
-            c.location.toLowerCase().includes(query.toLowerCase())
-        );
-      }
+      const savedIds = localStorage.getItem('selectedCompanyId');
+      const selectedIds = savedIds ? JSON.parse(savedIds) : [];
+      let filtered = dummyCompanies.filter((c) => selectedIds.includes(c._id));
 
       const start = (page - 1) * limit;
       const paginated = filtered.slice(start, start + limit);
@@ -64,8 +57,8 @@ function CompanyList() {
   };
 
   useEffect(() => {
-    fetchCompanies(page, query);
-  }, [page, query]);
+    fetchCompanies(page);
+  }, [page]);
 
   return (
     <>
@@ -75,19 +68,6 @@ function CompanyList() {
           <h2 className="text-xl lg:text-2xl font-semibold text-center text-indigo-600 mb-6">
             Company List
           </h2>
-
-          <div className="flex justify-center mb-6">
-            <input
-              type="text"
-              placeholder="Search by name or location"
-              className="w-full lg:w-1/3 p-2 border border-gray-300 rounded-lg"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setPage(1);
-              }}
-            />
-          </div>
 
           {loading ? (
             <div className="text-center text-gray-500">Loading companies...</div>

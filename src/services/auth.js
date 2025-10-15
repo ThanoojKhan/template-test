@@ -12,3 +12,7 @@ export const doLogout = () =>
 // Function to handle registration.
 export const doRegister = (userData) =>
   axios.post("/api/auth/register", userData);
+
+//Function to send OTP
+export const sendOTP = (email) =>
+  axios.post("/api/Email/SendOTP?CompanyName=DOLLARDUBAI", [email]);
